@@ -4,32 +4,49 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const assert = chai.assert
 const server = require('../app')
-const seriesDB = require('../db/series')
+
+let characterDB = require('../db/character')
 
 chai.use(chaiHttp)
 
-describe('series routes', () => {
-  context('INDEX\tGET\t/series', () => {
-    it('should list all series', (done) => {
+describe('character routes', () => {
+  context('INDEX\tGET\t/characters', () => {
+    xit('should list all characters', (done) => {
       chai.request(server)
-        .get('/series/')
+        .get('/characters')
         .end((err, res) => {
-          var expected = { status: 200, body: seriesDB }
+          var expected = { status: 200, body: characterDB }
           var { body, status } = res
 
           assert.equal(status, expected.status)
+          assert.deepEqual(body, expected.body)
+          done()
+        })
+    })
+    xit('should limit results shown to no more than amount specified by provided "limit" query param', (done) =>{
+      var filteredCharacters = characterDB.slice(0, 3)
+
+      chai.request(server)
+        .get('/characters/?limit=3')
+        .end((err, res) => {
+          var expected = { status: 200, body: filteredCharacters }
+          var { body, status } = res
+          var characterCount = body.length
+
+          assert.equal(status, expected.status)
+          assert.isAtMost(characterCount, 3)
           assert.deepEqual(body, expected.body)
           done()
         })
     })
   })
 
-  context('SHOW\tGET\t/series/:id', () => {
-    it('should list a single series', (done) => {
+  context('SHOW\tGET\t/characters/:id', () => {
+    xit('should list a single character', (done) => {
       chai.request(server)
-        .get(`/series/${seriesDB[1].id}`)
+        .get(`/characters/${characterDB[1].id}`)
         .end((err, res) => {
-          var expected = { status: 200, body: seriesDB[1] }
+          var expected = { status: 200, body: characterDB[1] }
           var { body, status } = res
 
           assert.equal(status, expected.status)
@@ -38,9 +55,9 @@ describe('series routes', () => {
         })
     })
 
-    it('should return an error if the id does not match a series', (done) => {
+    xit('should return an error if the id does not match a character', (done) => {
       chai.request(server)
-        .get('/series/999')
+        .get('/characters/999')
         .end((err, res) => {
           var expected = { status: 404 }
           var { body, status } = res
@@ -53,31 +70,31 @@ describe('series routes', () => {
     })
   })
 
-  context('CREATE\tPOST\t/series', () => {
-    it('should create a new entry with name and valid UUID', (done) => {
+  context('CREATE\tPOST\t/characters', () => {
+    xit('should create a new entry with name and valid UUID', (done) => {
       var name = 'Harry Potter'
       var regExUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-      var lastItem = seriesDB.length
+      var lastItem = characterDB.length
 
       chai.request(server)
-        .post(`/series`)
+        .post(`/characters`)
         .send({ name })
         .end((err, res) => {
-          var newSeries = seriesDB[lastItem]
-          var charUUID = newSeries.id
+          var newCharacter = characterDB[lastItem]
+          var charUUID = newCharacter.id
           var hasValidUUID = regExUUID.test(charUUID)
 
-          assert.property(newSeries, 'id')
-          assert.property(newSeries,'name')
+          assert.property(newCharacter, 'id')
+          assert.property(newCharacter,'name')
           assert.isTrue(hasValidUUID)
           done()
         })
     })
-    it('should respond with the newly created resource', (done) => {
-      var name = 'What About Bob'
+    xit('should respond with the newly created resource', (done) => {
+      var name = 'Dr. Leo Marvin'
 
       chai.request(server)
-        .post(`/series`)
+        .post(`/characters`)
         .send({ name })
         .end((err, res) => {
           var expected = { status: 201 }
@@ -89,9 +106,9 @@ describe('series routes', () => {
           done()
         })
     })
-    it('should return an error if the name is missing', (done) => {
+    xit('should return an error if the name is missing', (done) => {
       chai.request(server)
-        .post(`/series`)
+        .post(`/characters`)
         .send({})
         .end((err, res) => {
           var expected = { status: 400 }
@@ -103,11 +120,11 @@ describe('series routes', () => {
           done()
         })
     })
-    it('should return an error for names that are not unique', (done) => {
-      var name = 'What About Bob'
+    xit('should return an error for names that are longer than 30 characters', (done) => {
+      var name = 'Oscar Zoroaster Phadrig Isaac Norman Henkel Emmannuel Ambroise Diggs'
 
       chai.request(server)
-        .post(`/series`)
+        .post(`/characters`)
         .send({ name })
         .end((err, res) => {
           var expected = { status: 400 }
@@ -121,34 +138,34 @@ describe('series routes', () => {
     })
   })
 
-  context('UPDATE\tPUT\t/series/:id', () => {
-    it('should update an existing resource', (done) => {
-      var id = seriesDB[1].id
+  context('UPDATE\tPUT\t/characters/:id', () => {
+    xit('should update an existing resource', (done) => {
+      var id = characterDB[1].id
       var name = 'Zombieland'
       var nextState = { id , name }
 
       chai.request(server)
-        .put(`/series/${id}`)
+        .put(`/characters/${id}`)
         .send({ name })
         .end((err, res) => {
-          var newSeries = seriesDB.filter(series => series.id === id )[0]
-          var expected = { body: newSeries }
+          var newCharacter = characterDB.filter(character => character.id === id )[0]
+          var expected = { body: newCharacter }
           var { body } = res
 
           assert.deepEqual(nextState, expected.body)
           done()
         })
     })
-    it('should return that updated resource', (done) => {
-      var seriesID = seriesDB[1].id
+    xit('should return that updated resource', (done) => {
+      var characterID = characterDB[1].id
       var name = 'Zombieland'
 
       chai.request(server)
-        .put(`/series/${seriesID}`)
+        .put(`/characters/${characterID}`)
         .send({ name })
         .end((err, res) => {
-          var newSeries = seriesDB.filter(series => series.id === seriesID)[0]
-          var expected = { status: 200, body: newSeries }
+          var newCharacter = characterDB.filter(character => character.id === characterID)[0]
+          var expected = { status: 200, body: newCharacter }
           var { body, status } = res
 
           assert.equal(status, expected.status)
@@ -156,9 +173,9 @@ describe('series routes', () => {
           done()
         })
     })
-    it('should return an error if the id is not found', (done) => {
+    xit('should return an error if the id is not found', (done) => {
       chai.request(server)
-        .put('/series/999')
+        .put('/characters/999')
         .end((err, res) => {
           var expected = { status: 404 }
           var { body, status } = res
@@ -171,31 +188,30 @@ describe('series routes', () => {
     })
   })
 
-  context('DESTROY\tDELETE\t/series/:id', () => {
-    it('should delete a series resource', (done) => {
-      var id = seriesDB[0].id
-      var expectedNextState = seriesDB.slice(1)
-      var expectedSeriesCount = expectedNextState.length
+  context('DESTROY\tDELETE\t/characters/:id', () => {
+    xit('should delete a resource', (done) => {
+      var id = characterDB[0].id
+      var expectedNextState = characterDB.slice(1)
+      var expectedCharacterCount = expectedNextState.length
 
       chai.request(server)
-        .delete(`/series/${id}`)
+        .delete(`/characters/${id}`)
         .end((err, res) => {
-          var seriesCount = seriesDB.length
+          var characterCount = characterDB.length
 
-          assert.deepEqual(seriesDB, expectedNextState)
-          assert.equal(seriesCount, expectedSeriesCount)
+          assert.deepEqual(characterDB, expectedNextState)
+          assert.equal(characterCount, expectedCharacterCount)
           done()
         })
     })
-    it('should delete all nested character resources')
-    it('should respond with the deleted resource', (done) => {
-      var id = seriesDB[0].id
-      var deletedSeries = seriesDB.slice(0, 1)
+    xit('should respond with the deleted resource', (done) => {
+      var id = characterDB[0].id
+      var deletedCharacter = characterDB.slice(0, 1)
 
       chai.request(server)
-        .delete(`/series/${id}`)
+        .delete(`/characters/${id}`)
         .end((err, res) => {
-          var expected = { status: 200, body: deletedSeries }
+          var expected = { status: 200, body: deletedCharacter }
           var { body, status } = res
 
           assert.equal(status, expected.status)
@@ -203,9 +219,9 @@ describe('series routes', () => {
           done()
         })
     })
-    it('should return an error if the id is not found', (done) => {
+    xit('should return an error if the id is not found', (done) => {
       chai.request(server)
-        .delete('/series/999')
+        .delete('/characters/999')
         .end((err, res) => {
           var expected = { status: 404 }
           var { body, status } = res

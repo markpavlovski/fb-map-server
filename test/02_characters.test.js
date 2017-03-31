@@ -142,6 +142,7 @@ describe('character routes', () => {
     xit('should update an existing resource', (done) => {
       var id = characterDB[1].id
       var name = 'Zombieland'
+      var series_id = characterDB[1].series_id
       var nextState = { id , name, series_id }
 
       chai.request(server)

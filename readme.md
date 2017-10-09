@@ -1,9 +1,10 @@
-## Fictional Character API
+# Fictional Character API
 
-OMG OMDB! There are no endpoints for series characters on the OMDB API, so you are tasked with taking on that responsibility. You and your coworker, Gil, will be building out an API with endpoints for _series_ and _characters_ using Express. Gil has gone ahead and written out tests for all the endpoints you will need. It is now your responsibility to write the code to pass those tests. He setup an npm script for you to run the test suite, so when you are ready just execute `npm test` in your console. Gil is very observant and noticed you drank a lot of coffee this morning and are a bit high strung, so he set all but the first test to pending so you wouldn't freak out with a mass of angry red failing test output filling your console when you run the tests. That does mean however that you will want to go in after getting each test to pass and take the next test out of its _pending_ state. To do this, open up the `/test/01_series.test.js` file. You will see that running tests start off with `it`. Pending tests on the other hand start off with an `x` in front of the `it`. Search for the next instance of `xit` and just delete the `x`. That's it, now just head back the the console and run `npm test` and you should have a new failing test to get to pass. Once you are done with `01_series.test.js` move on and knock out the tests in `02_characters.test.js` file and then the `03` file.
+Follow the instructions in `app.js` to create an API for fictional characters! You will be create RESTful routes for both `characters` and `series` as well as adding a bit of validation and a nested resource.
 
-Good luck, and maybe lay off the coffee for the rest of the day. Maybe...
+## Setup
 
-Gil being the nice guy he is also left you some notes in the `app.js` file on the steps you can take to get started.
-
-All of the data you are working with is stored in the `/db/` directory. You will find a file for each resource in that directory. Use what you learned about modules to require in the data from those files into the file you are building your routes in.
+1. Fork and clone this repository
+1. Run `npm install` or `yarn`
+1. Run the tests with `npm test`
+1. Run the server in development mode with `npm run dev` or run it in production mode with `npm start`

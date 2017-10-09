@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http')
 const assert = chai.assert
 const server = require('../app')
 
-let characterDB = require('../db/character')
+let characterDB = require('../db/characters')
 
 chai.use(chaiHttp)
 
@@ -60,11 +60,10 @@ describe('character routes', () => {
         .get('/characters/999')
         .end((err, res) => {
           var expected = { status: 404 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -112,11 +111,10 @@ describe('character routes', () => {
         .send({})
         .end((err, res) => {
           var expected = { status: 400 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -128,11 +126,10 @@ describe('character routes', () => {
         .send({ name })
         .end((err, res) => {
           var expected = { status: 400 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -179,11 +176,10 @@ describe('character routes', () => {
         .put('/characters/999')
         .end((err, res) => {
           var expected = { status: 404 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -225,11 +221,10 @@ describe('character routes', () => {
         .delete('/characters/999')
         .end((err, res) => {
           var expected = { status: 404 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })

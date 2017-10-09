@@ -1,13 +1,13 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
 const uuid = require('uuid/v4')
-// You should install and save the `body-parser` module and require it here
-// You should include both resources as well
+const db = require('./db')
 
-// Use the `body-parser` module
-
-
+app.use(morgan('dev'))
+app.use(bodyParser.json())
 
 /*******************************************************************************
 
@@ -18,16 +18,15 @@ const uuid = require('uuid/v4')
   If there is an error, you should respond with the appropriate status code and a message in the following general format:
 
   {
-    status: 404,
-    message: 'Could not find series with ID of '1'.'
+    error: {
+      status: 404,
+      message: 'Could not find series with ID of '1'.'
+    }
   }
 
   Each series must have a name. Dynamically generate the id using `uuid()` on creation.
 
 ********************************************************************************/
-
-
-
 
 /********************************************************************************
 
@@ -36,22 +35,28 @@ const uuid = require('uuid/v4')
   Create a get all, get one, create, update, and delete route
   for the `character` resource.
 
+  You will also want to allow for a `limit` query parameter to limit the number
+  of responses you receive. For example:
+
+  `GET /characters?limit=4` -> Return only the first 4 characters
+
+  You will also want to have a limit on the length of character names. They
+  cannot be longer than 30 characters.
+
   If there is an error, you should respond with the appropriate status code
   and a message in the following general format:
 
   {
-    status: 404,
-    message: 'Could not find character with ID of '1'.'
+    error: {
+      status: 404,
+      message: 'Could not find character with ID of '1'.'
+    }
   }
 
-  Each character must have a name and series_id.
-  The series_id must match an existing series.
-  Dynamically generate the id using `uuid()` on creation.
+  Each character must have a name and series_id. The series_id must match an existing
+  series. Dynamically generate the id using `uuid()` on creation.
 
 ********************************************************************************/
-
-
-
 
 /********************************************************************************
 
@@ -63,9 +68,6 @@ const uuid = require('uuid/v4')
 
 ********************************************************************************/
 
-
-
-
 /********************************************************************************
 
   STRETCH 1:
@@ -75,12 +77,6 @@ const uuid = require('uuid/v4')
 
 ********************************************************************************/
 
-
-
-
-
-
-/********************************************************************************
 /********************************************************************************
 
   STRETCH 2:
@@ -91,10 +87,7 @@ const uuid = require('uuid/v4')
   Refactor so that, for example, your GET routes use the same code
   regardless of the resource.
 
-*********************************************************************************
 ********************************************************************************/
-
-
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {

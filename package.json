@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/nodemon app.js",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha"
+    "dev": "nodemon app.js",
+    "start": "node app.js",
+    "test": "NODE_ENV=test mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.15.2",
+    "morgan": "^1.9.0",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

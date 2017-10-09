@@ -43,11 +43,10 @@ describe('series routes', () => {
         .get('/series/999')
         .end((err, res) => {
           var expected = { status: 404 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
-          assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.equal(status, status)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -95,11 +94,10 @@ describe('series routes', () => {
         .send({})
         .end((err, res) => {
           var expected = { status: 400 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -111,11 +109,10 @@ describe('series routes', () => {
         .send({ name })
         .end((err, res) => {
           var expected = { status: 400 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -161,11 +158,10 @@ describe('series routes', () => {
         .put('/series/999')
         .end((err, res) => {
           var expected = { status: 404 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })
@@ -207,11 +203,10 @@ describe('series routes', () => {
         .delete('/series/999')
         .end((err, res) => {
           var expected = { status: 404 }
-          var { body, status } = res
+          var { error: { message, status } } = res
 
-          assert.isNotNull(err.body)
           assert.equal(status, expected.status)
-          assert.isNotNull(body.message)
+          assert.isNotNull(message)
           done()
         })
     })

@@ -4,7 +4,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const assert = chai.assert
 const server = require('../app')
-const characterDB = require('../db/character')
+const characterDB = require('../db/characters')
 
 chai.use(chaiHttp)
 

@@ -15,7 +15,11 @@ app.use(bodyParser.json())
 
   Create a get all, get one, create, update, and delete route for the `series` resource.
 
-  If there is an error, you should respond with the appropriate status code and a message in the following general format:
+  When you create a new series, you will have to check to see whether or not that series
+  name is already taken. If it is, return an error.
+
+  If there is an error, you should respond with the appropriate status code and a message
+  in the following general format:
 
   {
     error: {

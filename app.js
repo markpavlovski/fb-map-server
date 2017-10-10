@@ -6,7 +6,7 @@ const morgan = require('morgan')
 const uuid = require('uuid/v4')
 const db = require('./db')
 
-app.use(morgan('dev'))
+if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'))
 app.use(bodyParser.json())
 
 /*******************************************************************************

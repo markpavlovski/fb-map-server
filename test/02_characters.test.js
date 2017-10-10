@@ -79,7 +79,7 @@ describe('character routes', () => {
         .post(`/characters`)
         .send({ name })
         .end((err, res) => {
-          var newCharacter = characterDB[lastItem]
+          var newCharacter = characterDB[lastItem - 1]
           var charUUID = newCharacter.id
           var hasValidUUID = regExUUID.test(charUUID)
 

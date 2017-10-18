@@ -23,4 +23,3 @@ ADD $SUBMISSION_SUBFOLDER /app
 # Overwrite files in student fork with upstream files
 ADD test.sh /app
 ADD package.json /app
-ADD test /app/test

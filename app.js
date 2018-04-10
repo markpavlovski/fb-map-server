@@ -55,8 +55,7 @@ app.get('/series', (req, res) => {
 })
 
 app.get('/series/:id', validateSeries, (req, res) => {
-  const {id,name} = req.series
-  res.status(200).send({id,name})
+  res.status(200).send(req.series)
 })
 
 app.post('/series',  (req, res, next) =>{
@@ -122,6 +121,71 @@ app.delete('/series/:id', validateSeries, (req, res, next) => {
 
 ********************************************************************************/
 
+
+
+class Character {
+  constructor (name='') {
+    this.id = uuid()
+    this.name = name
+  }
+}
+
+let validateCharacter =  (req, res, next) => {
+  const character = db.characters.find(character => character.id === req.params.id)
+  if (character) {
+    req.character = character
+    next()
+  } else {
+    res.status(404).send({error: {message: 'no such character'}})
+  }
+}
+
+app.get('/characters', (req, res) => {
+  if (req.query.limit){
+    res.send(db.characters.slice(0,req.query.limit))
+  }
+  res.send(db.characters)
+})
+
+app.get('/characters/:id', validateCharacter, (req, res) => {
+  res.status(200).send(req.character)
+})
+
+app.post('/characters', (req, res, next) =>{
+  const character = new Character()
+  if (!req.body.name) {
+    res.status(400).send({error: {message: 'No name specified'}})
+  }
+  if (req.body.name.length > 30) {
+    res.status(400).send({error: {message: 'Name too long'}})
+  }
+  if (db.characters.find(character => character.name === req.body.name)) {
+    res.status(400).send({error: {message: 'This name already exists'}})
+  }
+  character.name = req.body.name
+  db.characters.push(character)
+  res.status(201).send(character)
+})
+
+app.put('/characters/:id', validateCharacter, (req, res, next) => {
+  if (req.body.name){
+    req.character.name = req.body.name
+    res.status(200).send(req.character)
+  } else {
+    res.status(400).send({error: {message: 'Please specify name'}})
+  }
+})
+
+app.delete('/characters/:id', validateCharacter, (req, res, next) => {
+    let index = db.characters.findIndex(character => character.id === req.character.id)
+    res.status(200).send(db.characters.splice(index, 1))
+})
+
+
+
+
+
+
 /********************************************************************************
 
   STEP 3:
@@ -131,6 +195,18 @@ app.delete('/series/:id', validateSeries, (req, res, next) => {
   `/series/{ id }/characters`
 
 ********************************************************************************/
+
+
+
+app.get('/series/:id/characters', validateSeries, (req, res) => {
+  res.status(200).send(db.characters.filter(character => character.series_id === req.series.id))
+})
+
+
+
+
+
+
 
 /********************************************************************************
 

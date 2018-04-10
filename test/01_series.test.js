@@ -25,7 +25,7 @@ describe('series routes', () => {
   })
 
   context('SHOW\tGET\t/series/:id', () => {
-    xit('should list a single series', (done) => {
+    it('should list a single series', (done) => {
       chai.request(server)
         .get(`/series/${seriesDB[1].id}`)
         .end((err, res) => {
@@ -38,7 +38,7 @@ describe('series routes', () => {
         })
     })
 
-    xit('should return an error if the id does not match a series', (done) => {
+    it('should return an error if the id does not match a series', (done) => {
       chai.request(server)
         .get('/series/999')
         .end((err, res) => {
@@ -53,7 +53,7 @@ describe('series routes', () => {
   })
 
   context('CREATE\tPOST\t/series', () => {
-    xit('should create a new entry with name and valid UUID', (done) => {
+    it('should create a new entry with name and valid UUID', (done) => {
       var name = 'Harry Potter'
       var regExUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
       var lastItem = seriesDB.length
@@ -72,7 +72,7 @@ describe('series routes', () => {
           done()
         })
     })
-    xit('should respond with the newly created resource', (done) => {
+    it('should respond with the newly created resource', (done) => {
       var name = 'What About Bob'
 
       chai.request(server)
@@ -88,7 +88,7 @@ describe('series routes', () => {
           done()
         })
     })
-    xit('should return an error if the name is missing', (done) => {
+    it('should return an error if the name is missing', (done) => {
       chai.request(server)
         .post(`/series`)
         .send({})
@@ -101,7 +101,7 @@ describe('series routes', () => {
           done()
         })
     })
-    xit('should return an error for names that are not unique', (done) => {
+    it('should return an error for names that are not unique', (done) => {
       var name = 'What About Bob'
 
       chai.request(server)

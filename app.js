@@ -32,6 +32,53 @@ app.use(bodyParser.json())
 
 ********************************************************************************/
 
+
+class Series {
+  constructor (name='') {
+    this.id = uuid()
+    this.name = name
+  }
+}
+
+let validateSeries =  (req, res, next) => {
+  const series = db.series.find(series => series.id === req.params.id)
+  if (series) {
+    req.series = series
+    next()
+  } else {
+    res.status(404).send({error: {message: 'no such series'}})
+  }
+}
+
+app.get('/series', (req, res) => {
+  res.send(db.series)
+})
+
+app.get('/series/:id', validateSeries, (req, res) => {
+  const {id,name} = req.series
+  res.status(200).send({id,name})
+})
+
+app.post('/series',  (req, res, next) =>{
+  const series = new Series()
+  if (!req.body.name) {
+    res.status(400).send({error: {message: 'No name specified'}})
+  }
+  if (db.series.find(series => series.name === req.body.name)) {
+    res.status(400).send({error: {message: 'This name already exists'}})
+  }
+  series.name = req.body.name
+  db.series.push(series)
+  res.status(201).send(series)
+})
+
+
+
+
+
+
+
+
 /********************************************************************************
 
   STEP 2:

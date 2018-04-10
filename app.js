@@ -72,6 +72,14 @@ app.post('/series',  (req, res, next) =>{
   res.status(201).send(series)
 })
 
+app.put('/series/:id', validateSeries, (req, res, next) => {
+  if (req.body.name){
+    req.series.name = req.body.name
+    res.status(200).send(req.series)
+  } else {
+    res.status(400).send({error: {message: 'Please specify name'}})
+  }
+})
 
 
 

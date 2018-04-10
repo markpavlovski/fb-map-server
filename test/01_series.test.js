@@ -119,7 +119,7 @@ describe('series routes', () => {
   })
 
   context('UPDATE\tPUT\t/series/:id', () => {
-    xit('should update an existing resource', (done) => {
+    it('should update an existing resource', (done) => {
       var id = seriesDB[1].id
       var name = 'Zombieland'
       var nextState = { id , name }
@@ -136,7 +136,7 @@ describe('series routes', () => {
           done()
         })
     })
-    xit('should return that updated resource', (done) => {
+    it('should return that updated resource', (done) => {
       var seriesID = seriesDB[1].id
       var name = 'Zombieland'
 
@@ -153,7 +153,7 @@ describe('series routes', () => {
           done()
         })
     })
-    xit('should return an error if the id is not found', (done) => {
+    it('should return an error if the id is not found', (done) => {
       chai.request(server)
         .put('/series/999')
         .end((err, res) => {

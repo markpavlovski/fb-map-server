@@ -168,7 +168,7 @@ describe('series routes', () => {
   })
 
   context('DESTROY\tDELETE\t/series/:id', () => {
-    xit('should delete a series resource', (done) => {
+    it('should delete a series resource', (done) => {
       var id = seriesDB[0].id
       var expectedNextState = seriesDB.slice(1)
       var expectedSeriesCount = expectedNextState.length
@@ -183,7 +183,7 @@ describe('series routes', () => {
           done()
         })
     })
-    xit('should respond with the deleted resource', (done) => {
+    it('should respond with the deleted resource', (done) => {
       var id = seriesDB[0].id
       var deletedSeries = seriesDB.slice(0, 1)
 
@@ -198,7 +198,7 @@ describe('series routes', () => {
           done()
         })
     })
-    xit('should return an error if the id is not found', (done) => {
+    it('should return an error if the id is not found', (done) => {
       chai.request(server)
         .delete('/series/999')
         .end((err, res) => {

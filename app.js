@@ -81,6 +81,11 @@ app.put('/series/:id', validateSeries, (req, res, next) => {
   }
 })
 
+app.delete('/series/:id', validateSeries, (req, res, next) => {
+    let index = db.series.findIndex(series => series.id === req.series.id)
+    res.status(200).send(db.series.splice(index, 1))
+})
+
 
 
 

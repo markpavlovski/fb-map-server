@@ -10,7 +10,7 @@ chai.use(chaiHttp)
 
 describe('series character routes', () => {
   context('INDEX\tGET\t/series/:id/characters', () => {
-    xit('should respond with all characters for a particular series', (done) => {
+    it('should respond with all characters for a particular series', (done) => {
       var seriesId = '98f900c6-7845-4ca5-8640-a361bd7d77ed'
       var characters = characterDB.filter(character => {
         return character.series_id === seriesId

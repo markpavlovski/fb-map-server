@@ -77,7 +77,7 @@ app.get('/', (req, res) => {
           }
         </style>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXGeNKNcbcjQMrvzc1Gh_omAon3rBBa6g&v=3.11&sensor=false" type="text/javascript"></script>
         <script type="text/javascript">
         // check DOM Ready
         $(document).ready(function() {
